@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import BiblePassageSearch from '../../components/BiblePassageSearch';
+import ReadingPlanViewer from '../../components/ReadingPlanViewer';
 
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
-      <BiblePassageSearch />
+      <ReadingPlanViewer />
     </View>
   );
 }
