@@ -151,86 +151,84 @@ const ReadingPlanViewer: React.FC = () => {
         </Text>
       </View>
 
-      <View style={styles.contentWrapper}>
-        <View style={styles.content}>
-          {/* Passage Title */}
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>
-              {currentReading}
+      <View style={styles.content}>
+        {/* Passage Title */}
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>
+            {currentReading}
+          </Text>
+        </View>
+
+        {/* Audio Controls */}
+        <View style={styles.audioContainer}>
+          <View style={styles.audioControlsRow}>
+            <TouchableOpacity 
+              onPress={playAudio}
+              style={styles.playButton}
+            >
+              <Ionicons 
+                name={isPlaying ? "pause-circle" : "play-circle"} 
+                size={32} 
+                color="#374151"
+              />
+              <Text style={styles.playButtonText}>
+                {isPlaying ? 'Pause' : 'Play'} Audio
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              onPress={changeSpeed}
+              style={styles.speedButton}
+            >
+              <Text style={styles.speedButtonText}>
+                {playbackSpeed}x
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.progressContainer}>
+            <Text style={styles.timeText}>
+              {formatTime(position)}
+            </Text>
+            <Slider
+              style={styles.progressBar}
+              minimumValue={0}
+              maximumValue={duration}
+              value={position}
+              onSlidingComplete={seekAudio}
+              minimumTrackTintColor="#374151"
+              maximumTrackTintColor="#E5E7EB"
+              thumbTintColor="#374151"
+            />
+            <Text style={styles.timeText}>
+              {formatTime(duration)}
             </Text>
           </View>
-
-          {/* Audio Controls */}
-          <View style={styles.audioContainer}>
-            <View style={styles.audioControlsRow}>
-              <TouchableOpacity 
-                onPress={playAudio}
-                style={styles.playButton}
-              >
-                <Ionicons 
-                  name={isPlaying ? "pause-circle" : "play-circle"} 
-                  size={32} 
-                  color="#374151"
-                />
-                <Text style={styles.playButtonText}>
-                  {isPlaying ? 'Pause' : 'Play'} Audio
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity 
-                onPress={changeSpeed}
-                style={styles.speedButton}
-              >
-                <Text style={styles.speedButtonText}>
-                  {playbackSpeed}x
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.progressContainer}>
-              <Text style={styles.timeText}>
-                {formatTime(position)}
-              </Text>
-              <Slider
-                style={styles.progressBar}
-                minimumValue={0}
-                maximumValue={duration}
-                value={position}
-                onSlidingComplete={seekAudio}
-                minimumTrackTintColor="#374151"
-                maximumTrackTintColor="#E5E7EB"
-                thumbTintColor="#374151"
-              />
-              <Text style={styles.timeText}>
-                {formatTime(duration)}
-              </Text>
-            </View>
-          </View>
-
-          {/* Passage Content */}
-          {loading ? (
-            <ActivityIndicator size="large" color="#374151" />
-          ) : error ? (
-            <Text style={styles.error}>{error}</Text>
-          ) : (
-            <RenderHtml 
-              contentWidth={Math.min(width * 0.85, 680)}
-              source={{ html: passage }}
-              tagsStyles={{
-                p: {
-                  fontSize: 16,
-                  lineHeight: 28,
-                  marginBottom: 16,
-                  color: '#374151',
-                  fontFamily: 'System',
-                },
-                sup: {
-                  display: 'none',
-                },
-              }}
-            />
-          )}
         </View>
+
+        {/* Passage Content */}
+        {loading ? (
+          <ActivityIndicator size="large" color="#374151" />
+        ) : error ? (
+          <Text style={styles.error}>{error}</Text>
+        ) : (
+          <RenderHtml 
+            contentWidth={width * 0.85}
+            source={{ html: passage }}
+            tagsStyles={{
+              p: {
+                fontSize: 16,
+                lineHeight: 28,
+                marginBottom: 16,
+                color: '#374151',
+                fontFamily: 'System',
+              },
+              sup: {
+                display: 'none',
+              },
+            }}
+          />
+        )}
       </View>
     </ScrollView>
   );
@@ -247,12 +245,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#f1f1f1',
   },
-  contentWrapper: {
-    alignItems: 'center',
+  dateText: {
+    fontSize: 14,
+    color: '#666',
   },
   content: {
-    width: '85%',
-    maxWidth: 680,
     padding: 24,
   },
   titleContainer: {
